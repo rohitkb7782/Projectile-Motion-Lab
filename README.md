@@ -2,6 +2,8 @@
 
 A Python project exploring computational physics through the numerical simulation of projectile motion. Euler's Method is used to solve the equations of motion for both ideal projectile motion and a model incorporating quadratic air resistance.
 
+![Projectile Motion using Euler's Method with different step sizes](images/ideal_projectile.png)
+
 ## Motivation
 
 Projectile motion provides a simple introduction to computational modeling because the underlying physics can be described using differential equations. The ideal projectile case has a known analytical solution, allowing numerical methods to be validated. Adding aerodynamic drag creates a more realistic system that requires numerical simulation.
@@ -64,7 +66,7 @@ $$
 c=\frac{1}{2}C_d\rho A
 $$
 
-combines the aerodynamic constants into a single drag coefficient.
+combines the aerodynamic constants into a single drag parameter.
 
 ## Numerical Method
 
@@ -75,6 +77,7 @@ $$
 $$
 
 Because Euler's Method evaluates the derivative only at the beginning of each timestep, it approximates the solution using a local linear approximation. This produces a local truncation error of $O(\Delta t^2)$ and an accumulated global error of $O(\Delta t)$. Consequently, the overall simulation error is expected to scale linearly with the timestep size, which is confirmed by the results.
+
 To improve the accuracy of the estimated range, the impact location is determined by linearly interpolating between the final point above the ground and the first point below it.
 
 ## Results
@@ -83,7 +86,7 @@ The following figures compare numerical solutions for different timestep sizes a
 
 ### Ideal Projectile Motion
 
-![Trajectory](images/ideal_projectile.png)
+![Projectile Motion using Euler's Method with different step sizes](images/ideal_projectile.png)
 
 Projectile trajectories computed using Euler's Method for several timestep sizes. As the timestep decreases, the numerical solution converges toward the analytical trajectory.
 
@@ -95,7 +98,7 @@ The range error increases linearly with timestep size, consistent with the first
 
 ### Quadratic Drag
 
-![Drag Trajectory](images/drag_vs_ideal.png)
+![Projectile Motion with vs. without Quadratic Drag](images/drag_vs_ideal.png)
 
 Including quadratic air resistance produces a shorter range and lower maximum height than the ideal model. Because this system has no simple closed-form solution, it must be solved numerically.
 
