@@ -2,7 +2,9 @@
 
 This project simulates the motion of a projectile using **Euler's Method** and compares the numerical solution to the analytical solution.
 
-## Features
+## Motivation
+
+This is my first project in simulation engineering. I chose projectile motion because 
 
 - Simulates 2D projectile motion under constant gravity
 - Implements Euler's Method for numerical integration
