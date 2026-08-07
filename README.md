@@ -98,7 +98,7 @@ Including quadratic air resistance produces a shorter range and lower maximum he
 
 ## Key Findings
 
-* Euler's Method accurately reproduces the analytical solution for ideal projectile motion when sufficiently small timesteps are used.
+* Euler's Method accurately reproduces the analytical solution for ideal projectile motion as the timestep size decreases.
 * The range error exhibits a linear relationship with timestep size, demonstrating the first-order convergence of Euler's Method.
 * Introducing quadratic air resistance significantly reduces both the projectile's maximum height and horizontal range, illustrating the influence of aerodynamic drag.
 
