@@ -86,10 +86,6 @@ The following figures compare numerical solutions for different timestep sizes a
 
 ### Ideal Projectile Motion
 
-![Projectile Motion using Euler's Method with different step sizes](images/ideal_projectile.png)
-
-Projectile trajectories computed using Euler's Method for several timestep sizes. As the timestep decreases, the numerical solution converges toward the analytical trajectory.
-
 ### Numerical Error
 
 ![Error vs Step Size](images/error_vs_step_size.png)
