@@ -152,4 +152,4 @@ Running `main.py` generates trajectory and error plots for the ideal and drag mo
 
 ## Conclusion
 
-This project demonstrates the complete workflow of a numerical simulation: developing a mathematical model, implementing a numerical solver, validating the solution, and analyzing the resulting behavior. Although the project focuses on projectile motion, the modular design provides a foundation for extending the framework to more complex physical systems governed by ordinary differential equations.
+This project explored how numerical methods can be used to model physical systems governed by differential equations. By starting with ideal projectile motion and extending the model to include quadratic air resistance, the simulation demonstrates how mathematical assumptions and numerical techniques influence the behavior of a system. The modular structure allows the same framework to be adapted to more complex physical simulations.
