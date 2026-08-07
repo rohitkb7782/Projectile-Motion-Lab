@@ -120,26 +120,42 @@ Projectile_Motion/
 
 ## Running the Project
 
-1. Clone the repository:
+### 1. Clone the repository:
 
 ```bash
 git clone https://github.com/rohitkb7782/Projectile_Motion.git
 cd Projectile_Motion
 ```
 
-2. Install the required dependencies:
+### 2. Install the required dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Run the simulation:
+### 3. Select the Projectile Model
+
+Before running the simulation, open `main.py` and choose which projectile model you would like to simulate by changing the `model` variable.
+
+- To simulate **ideal projectile motion** (without air resistance), set:
+
+```python
+model = "ideal"
+```
+
+- To simulate **projectile motion with quadratic drag**, set:
+```python
+model = "drag"
+```
+Make sure the correct model is selected before running the program, depending on which simulation you want to analyze.
+
+### 4. Run the simulation:
 
 ```bash
 python main.py
 ```
 
-Running `main.py` generates trajectory and error plots for the ideal and drag models and prints the corresponding range estimates to the console.
+Running `main.py` will generate the trajectory plots for the selected model and display the corresponding range estimates and error analysis results.
 
 ## Future Improvements
 
