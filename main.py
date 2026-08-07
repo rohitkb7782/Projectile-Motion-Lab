@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from solvers import euler_solver
 
 model = "drag"
-if model == "basic":
+if model == "ideal":
     from physics import projectile_derivative
     from analysis import interpolate_ground_impact, analytical_solution, error_analysis
 elif model == "drag":
@@ -23,7 +23,7 @@ initial_velocity = (5, 10)                                           # initial x
 for step in step_sizes:
     times = np.arange(start, stop + step, step)                      # times at which to evaluate position and velocity   [s]
     initial_state = initial_position + initial_velocity              # Concatenate initial conditions into a 4D vector
-    if model == "basic":
+    if model == "ideal":
         states = euler_solver(projectile_derivative, initial_state, times)           # Solve for the 4D vector at the specified times
     elif model == "drag":
         states = euler_solver(projectile_drag_derivative, initial_state, times)      # Solve for the 4D vector at the specified times
@@ -38,7 +38,7 @@ for step in step_sizes:
     estimate_ranges_list.append(x_positions[-1])
     plt.plot(x_positions, y_positions, label=str(step)+" s")
 
-if model == "basic":
+if model == "ideal":
     #%% Calculate the analytical solution to the initial value problem
     x_analytical, y_analytical = analytical_solution(start, stop, initial_position, initial_velocity)
     plt.plot(x_analytical, y_analytical, "--", label="Analytical Solution")
