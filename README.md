@@ -82,8 +82,6 @@ To improve the accuracy of the estimated range, the impact location is determine
 
 ## Results
 
-The following figures highlight the numerical accuracy of Euler's Method and the physical effects of introducing quadratic air resistance.
-
 ### Numerical Error
 
 ![Error vs Step Size](images/error_vs_step_size.png)
