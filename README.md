@@ -1,59 +1,99 @@
-# Projectile Motion Simulation
+# Projectile Motion Simulation with Quadratic Drag
 
-This project simulates the motion of a projectile using **Euler's Method** and compares the numerical solution to the analytical solution.
+A Python-based computational physics project that simulates projectile motion using numerical integration. The project begins with ideal projectile motion and extends the model by incorporating quadratic air resistance.
 
 ## Motivation
 
-This is my first project in simulation engineering. I chose projectile motion because 
+Projectile motion provides a simple introduction to computational modeling because the underlying physics can be described using differential equations. The ideal projectile case has a known analytical solution, allowing numerical methods to be validated. Adding aerodynamic drag creates a more realistic system that requires numerical simulation.
 
-- Simulates 2D projectile motion under constant gravity
-- Implements Euler's Method for numerical integration
-- Uses linear interpolation to estimate the projectile's landing position
-- Compares numerical results with the analytical solution
-- Investigates the effect of timestep size on numerical accuracy
+This project explores how physical assumptions and numerical methods affect the predicted behavior of a system.
 
-## Files
+## Physics Model
 
-| File | Description |
-|------|-------------|
-| `main.py` | Runs the simulation, generates plots, and computes errors |
-| `physics.py` | Defines the projectile's equations of motion |
-| `solvers.py` | Implements Euler's Method |
-| `analysis.py` | Contains helper functions such as ground-impact interpolation |
-| `requirements.txt` | Lists required Python packages |
+The projectile is represented by the state vector:
 
-## Requirements
+$$
+\mathbf{s} =
+\begin{bmatrix}
+x \\
+y \\
+v_x \\
+v_y
+\end{bmatrix}
+$$
 
-- Python 3
-- NumPy
-- Matplotlib
+For ideal projectile motion:
 
-Install dependencies with:
+$$
+\frac{dx}{dt}=v_x
+$$
 
-```bash
-pip install -r requirements.txt
+$$
+\frac{dy}{dt}=v_y
+$$
+
+$$
+\frac{dv_x}{dt}=0
+$$
+
+$$
+\frac{dv_y}{dt}=-g
+$$
+
+The drag model introduces a quadratic air resistance force:
+
+$$
+\mathbf{F}_d=-\frac{1}{2}C_d\rho A|\mathbf{v}|\mathbf{v}
+$$
+
+which produces accelerations:
+
+$$
+a_x=-\frac{c}{m}|\mathbf{v}|v_x
+$$
+
+$$
+a_y=-g-\frac{c}{m}|\mathbf{v}|v_y
+$$
+
+where $c$ represents the combined drag coefficient terms.
+
+## Numerical Method
+
+The equations of motion are solved using Euler's Method:
+
+$$
+\mathbf{s}_{n+1}
+=
+\mathbf{s}_n+\Delta t\frac{d\mathbf{s}}{dt}
+$$
+
+The timestep size is varied to investigate numerical accuracy and convergence.
+
+## Features
+
+- Numerical simulation of projectile motion
+- Ideal projectile and quadratic drag models
+- Custom Euler integration solver
+- Modular separation of physics, solvers, and analysis
+- Ground-impact interpolation
+- Numerical error analysis for the ideal case
+
+## Project Structure
+
+```
+main.py       Runs simulations and visualization
+physics.py    Defines physical models
+solvers.py    Numerical integration methods
+analysis.py   Error calculations and trajectory analysis
 ```
 
-## Running the Project
+## Results
 
-Run the simulation with:
 
-```bash
-python main.py
-```
 
-The program will:
-- Plot projectile trajectories for several timestep sizes.
-- Plot the analytical solution.
-- Display the numerical error in the estimated range.
+## Future Improvements
 
-## Example Output
-
-The simulation generates:
-- Projectile trajectories
-- Error versus timestep plots
-- Estimated projectile ranges
-
-## Author
-
-Your Name
+- Implement higher-order methods such as RK4
+- Add wind forces
+- Add gravity variation with height
