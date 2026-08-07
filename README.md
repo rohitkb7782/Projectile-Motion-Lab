@@ -82,9 +82,7 @@ To improve the accuracy of the estimated range, the impact location is determine
 
 ## Results
 
-The following figures compare numerical solutions for different timestep sizes and illustrate both the numerical behavior of Euler's Method and the physical effects of quadratic air resistance.
-
-### Ideal Projectile Motion
+The following figures highlight the numerical accuracy of Euler's Method and the physical effects of introducing quadratic air resistance.
 
 ### Numerical Error
 
