@@ -28,3 +28,27 @@ def interpolate_ground_impact(states):
     above_states[i,0] = x_ground
     above_states[i,1] = 0
     return above_states
+
+def analytical_solution(start, stop, initial_position, initial_velocity):
+    '''
+    Calculates the analytical solution to the projectile equations of motion:
+    x = x0 + Vx t
+    y = y0 + Vy t - 0.5 g t^2
+    Returns the x and y values of the projectile above ground according to the analytical solution.
+    '''
+    times = np.arange(start, stop, 0.01)
+    x_analytical = initial_position[0] + initial_velocity[0] * times
+    y_analytical = initial_position[1] + initial_velocity[1] * times - 4.9 * times**2
+    mask = (y_analytical >= 0)                                           # Erase values where y < 0
+    return x_analytical[mask], y_analytical[mask]
+
+def error_analysis(step_sizes, estimate_ranges_list, analytical_range):
+    '''
+    Calculates the error of each estimate range compared to the analytical range
+    Returns the errors in a list.
+    '''
+    errors_list = []
+    for i in range(len(step_sizes)):
+        error = estimate_ranges_list[i] - analytical_range
+        errors_list.append(error)
+    return errors_list
