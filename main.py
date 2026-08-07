@@ -1,9 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from physics import get_derivative
 from solvers import euler_solver
-from analysis import interpolate_ground_impact
+
+model = "drag"
+if model == "basic":
+    from physics import projectile_derivative
+    from analysis import interpolate_ground_impact, analytical_solution, error_analysis
+elif model == "drag":
+    from physics import projectile_drag_derivative
+    from analysis import interpolate_ground_impact
 
 #%% Initialize parameters.
 start = 0
@@ -17,7 +23,10 @@ initial_velocity = (5, 10)                                           # initial x
 for step in step_sizes:
     times = np.arange(start, stop + step, step)                      # times at which to evaluate position and velocity   [s]
     initial_state = initial_position + initial_velocity              # Concatenate initial conditions into a 4D vector
-    states = euler_solver(get_derivative, initial_state, times)      # Solve for the 4D vector at the specified times
+    if model == "basic":
+        states = euler_solver(projectile_derivative, initial_state, times)           # Solve for the 4D vector at the specified times
+    elif model == "drag":
+        states = euler_solver(projectile_drag_derivative, initial_state, times)      # Solve for the 4D vector at the specified times
     above_states = interpolate_ground_impact(states)
 
     #%% Unpack the states vectors
@@ -29,33 +38,35 @@ for step in step_sizes:
     estimate_ranges_list.append(x_positions[-1])
     plt.plot(x_positions, y_positions, label=str(step)+" s")
 
-#%% Calculate the analytical solution to the initial value problem.
-times = np.arange(start, stop, 0.01)
-x_analytical = initial_position[0] + initial_velocity[0] * times
-y_analytical = initial_position[1] + initial_velocity[1] * times - 4.9 * times**2
-mask = (y_analytical >= 0)                                           # Erase values where y < 0
-x_analytical, y_analytical = x_analytical[mask], y_analytical[mask]
-plt.plot(x_analytical, y_analytical, "--", label="Analytical Solution")
+if model == "basic":
+    #%% Calculate the analytical solution to the initial value problem
+    x_analytical, y_analytical = analytical_solution(start, stop, initial_position, initial_velocity)
+    plt.plot(x_analytical, y_analytical, "--", label="Analytical Solution")
+    analytical_range = x_analytical[-1]
 
-plt.xlabel("Horizontal Distance [m]")
-plt.ylabel("Vertical Height [m]")
-plt.title("Projectile Motion using Euler's Method with different step sizes")
-plt.legend()
+    plt.xlabel("Horizontal Distance [m]")
+    plt.ylabel("Vertical Height [m]")
+    plt.title("Projectile Motion using Euler's Method with different step sizes")
+    plt.legend()
 
-#%% Compare the analytical range to the estimate ranges and compute errors.
-analytical_range = x_analytical[-1]
-print("Step size\tRange estimate\tError\n---------\t--------------\t-----")
-print(f"Analytical\t{analytical_range:.2f} m")
+    #%% Compare the analytical range to the estimate ranges and compute errors.
+    print("Step size\tRange estimate\tError")
+    print(f"Analytical\t{analytical_range:.2f} m")
+    errors_list = error_analysis(step_sizes, estimate_ranges_list, analytical_range)
+    for i in range(len(step_sizes)):
+        print(f"{step_sizes[i]} s\t\t{estimate_ranges_list[i]:.2f} m\t\t{errors_list[i]:.2f} m")
 
-errors_list = []
-for i in range(len(step_sizes)):
-    estimate_range = estimate_ranges_list[i]
-    error = estimate_range - analytical_range
-    errors_list.append(error)
-    print(f"{step_sizes[i]} s\t\t{estimate_range:.2f} m\t\t{error:.2f} m")
+    plt.figure()
+    plt.plot(step_sizes, errors_list)
+    plt.xlabel("Step Sizes [s]")
+    plt.ylabel("Errors in Range [m]")
+    plt.title("Errors in Range vs. Step Sizes for Euler's Method")
 
-plt.figure()
-plt.plot(step_sizes, errors_list)
-plt.xlabel("Step Sizes [s]")
-plt.ylabel("Errors in Range [m]")
-plt.title("Errors in Range vs. Step Sizes for Euler's Method")
+elif model == "drag":
+    plt.xlabel("Horizontal Distance [m]")
+    plt.ylabel("Vertical Height [m]")
+    plt.title("Projectile Motion with quadratic drag using Euler's Method with different step sizes")
+    
+    print("Step size\tRange estimate")
+    for i in range(len(step_sizes)):
+        print(f"{step_sizes[i]} s\t\t{estimate_ranges_list[i]:.2f} m")
